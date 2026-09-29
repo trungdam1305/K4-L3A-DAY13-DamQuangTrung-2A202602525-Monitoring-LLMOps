@@ -3,11 +3,31 @@ primary_slo:
   name: fast_successful_requests
   window: 28d
   sli:
-    good_event: 'event == "response_sent" and latency_ms <= 3000'
+    # Một request "good" khi trả lời thành công VÀ đủ nhanh; request_failed luôn là "bad".
+    good_event: 'event == "response_sent" and latency_ms <= 2000'
     total_event: 'event == "request_received"'
   target_percent: 99.5
   error_budget_percent: 0.5
-  note: Học viên phải giải thích hoặc điều chỉnh ngưỡng bằng baseline của mình.
+  latency_threshold_ms: 2000
+  note: >-
+    Hạ ngưỡng latency từ 3000 ms xuống 2000 ms dựa trên baseline đo thực tế
+    (P50 ~152 ms, P95 ~160 ms, P99 ~700 ms do cold start). 2000 ms vẫn chừa
+    >10x headroom so với P95 bình thường nhưng bắt được sự cố retrieval chậm
+    (rag_slow ~2650 ms/request) - với ngưỡng 3000 ms SLO không hề "thấy" sự cố
+    này. Dashboard panel latency dùng cùng ngưỡng 2000 ms làm SLO line.
+error_budget:
+  # Budget = (1 - target) x tổng request trong cửa sổ.
+  formula: 'allowed_bad_requests = (1 - 0.995) * total_requests_in_28d'
+  example_1000_req_per_day: 'total = 28 000 -> allowed_bad = 140 request / 28 ngày'
+  burn_rate: 'burn_rate = bad_ratio_observed / 0.005 (1.0 = tiêu hết budget đúng 28 ngày)'
+  burn_rate_alerts:
+    fast_burn: 'burn_rate >= 14.4 trong 1h (tiêu ~2% budget/giờ) -> page'
+    slow_burn: 'burn_rate >= 6 trong 6h -> ticket'
+  policy: >-
+    Budget còn > 50%: được deploy prompt/model mới bình thường. Budget < 25%:
+    chỉ deploy fix độ tin cậy, prompt mới phải qua label candidate trước.
+    Budget cạn: freeze thay đổi prompt/model, rollback label production về
+    version ổn định gần nhất.
 guardrails:
   error_rate_pct_max: 2
   daily_cost_usd_max: 2.5

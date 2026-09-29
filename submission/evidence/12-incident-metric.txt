@@ -1,0 +1,8 @@
+# CP3 — Incident metric (nguồn: data/logs.jsonl, event response_sent; percentile như /metrics)
+# Challenge: day13-k4-l3a-monitoring-llmops-v1 | incident trong file: rag_slow | affected_feature: monitoring | latency_threshold_ms: 2000
+# Panel bất thường: "Latency percentiles and TTFT" — P95 vượt SLO line 2000 ms ở phút 12:56Z (19:56 UTC+7); TTFT, error rate, retrieval success, cost, tokens, quality bình thường
+
+cửa sổ                           UTC                      n feature          P50   P95   P99 TTFT_P95  >2000ms  err%
+baseline (trước sự cố)           12:55:10–12:55:14       10 qa,summary       153   161   161       50    0/10    0.0
+incident rag_slow (challenge)    12:56:01–12:56:18        5 monitoring      2653  2654  2654       50    5/5     0.0
+sau fix (cùng query challenge)   12:58:00–12:58:03        5 monitoring       152   152   152       50    0/5     0.0

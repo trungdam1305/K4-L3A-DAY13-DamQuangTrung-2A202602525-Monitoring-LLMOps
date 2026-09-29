@@ -1,0 +1,48 @@
+# Nguồn: data/logs.jsonl (structured log JSON do app ghi, mỗi dòng là một event)
+# Các dòng của request correlation_id=req-e5d35e40
+# Field chính: ts, level, service, event, correlation_id, env, model, feature,
+#   session_id, user_id_hash, latency_ms, ttft_ms, tokens_in/out, cost_usd, trace_id
+
+{"service": "api", "payload": {"message_preview": "Explain why metrics traces and logs work together"}, "event": "request_received", "correlation_id": "req-e5d35e40", "env": "dev", "model": "claude-sonnet-4-5", "feature": "qa", "session_id": "s02", "user_id_hash": "95b6504a8bd6", "level": "info", "ts": "2026-09-29T09:00:51.230672Z"}
+{"service": "api", "latency_ms": 153, "ttft_ms": 50, "tokens_in": 32, "tokens_out": 139, "cost_usd": 0.002181, "quality_score": 0.8, "tool_name": "retrieval", "tool_success": true, "trace_id": "484662be068b69c10d7f24d838b9f40f", "payload": {"answer_preview": "Starter answer. You should improve this output logic and add better quality chec..."}, "event": "response_sent", "correlation_id": "req-e5d35e40", "env": "dev", "model": "claude-sonnet-4-5", "feature": "qa", "session_id": "s02", "user_id_hash": "95b6504a8bd6", "level": "info", "ts": "2026-09-29T09:00:51.385894Z"}
+
+# Cùng request, dạng dễ đọc:
+{
+  "service": "api",
+  "payload": {
+    "message_preview": "Explain why metrics traces and logs work together"
+  },
+  "event": "request_received",
+  "correlation_id": "req-e5d35e40",
+  "env": "dev",
+  "model": "claude-sonnet-4-5",
+  "feature": "qa",
+  "session_id": "s02",
+  "user_id_hash": "95b6504a8bd6",
+  "level": "info",
+  "ts": "2026-09-29T09:00:51.230672Z"
+}
+{
+  "service": "api",
+  "latency_ms": 153,
+  "ttft_ms": 50,
+  "tokens_in": 32,
+  "tokens_out": 139,
+  "cost_usd": 0.002181,
+  "quality_score": 0.8,
+  "tool_name": "retrieval",
+  "tool_success": true,
+  "trace_id": "484662be068b69c10d7f24d838b9f40f",
+  "payload": {
+    "answer_preview": "Starter answer. You should improve this output logic and add better quality chec..."
+  },
+  "event": "response_sent",
+  "correlation_id": "req-e5d35e40",
+  "env": "dev",
+  "model": "claude-sonnet-4-5",
+  "feature": "qa",
+  "session_id": "s02",
+  "user_id_hash": "95b6504a8bd6",
+  "level": "info",
+  "ts": "2026-09-29T09:00:51.385894Z"
+}

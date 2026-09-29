@@ -1,0 +1,38 @@
+$ python scripts/load_test.py
+[200] MISSING | qa | 710.2ms
+[200] MISSING | qa | 155.6ms
+[200] MISSING | summary | 155.4ms
+[200] MISSING | qa | 161.3ms
+[200] MISSING | qa | 157.7ms
+[200] MISSING | summary | 156.5ms
+[200] MISSING | qa | 156.4ms
+[200] MISSING | qa | 155.8ms
+[200] MISSING | qa | 156.0ms
+[200] MISSING | qa | 156.6ms
+
+$ python scripts/validate_logs.py
+--- Lab Verification Results ---
+Total log records analyzed: 21
+Records with missing required fields: 20
+Records with missing enrichment (context): 20
+Unique correlation IDs found: 0
+Potential PII leaks detected: 0
+
+--- Grading Scorecard (Estimates) ---
+- [FAILED] Missing required fields (ts, level, etc.)
+- [FAILED] Correlation ID propagation (less than 2 unique IDs)
+- [FAILED] Log enrichment (missing user_id_hash, etc.)
++ [PASSED] PII scrubbing
+
+Estimated Score: 30/100
+
+$ python scripts/validate_dashboard.py
+HỢP LỆ: 6/6 panel có trong dashboard contract.
+
+$ python -m pytest -q
+......................                                                   [100%]
+22 passed in 7.17s
+
+--- sample baseline log lines (data/logs.jsonl, before CP1) ---
+{"service": "api", "payload": {"message_preview": "What is your refund policy? My email is [REDACTED_EMAIL]"}, "event": "request_received", "level": "info", "ts": "2026-09-29T07:53:51.685875Z"}
+{"service": "api", "latency_ms": 150, "ttft_ms": 50, "tokens_in": 36, "tokens_out": 162, "cost_usd": 0.002538, "quality_score": 0.9, "tool_name": "retrieval", "tool_success": true, "payload": {"answer_preview": "Starter answer. You should improve this output logic and add better quality chec..."}, "event": "response_sent", "level": "info", "ts": "2026-09-29T07:53:52.351605Z"}

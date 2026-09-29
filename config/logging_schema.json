@@ -22,6 +22,7 @@
     "error_type": {"type": ["string", "null"]},
     "tool_name": {"type": ["string", "null"]},
     "tool_success": {"type": ["boolean", "null"]},
+    "trace_id": {"type": ["string", "null"]},
     "payload": {"type": ["object", "null"]}
   }
 }

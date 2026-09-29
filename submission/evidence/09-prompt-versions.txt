@@ -1,0 +1,17 @@
+# Prompt versions — project day13-k4-l3a-2A202602525, prompt day13-chat
+# v1 = template gốc; v2 = thêm dòng yêu cầu trả lời <= 3 bullet ngắn (thay đổi nhỏ về format).
+# Trạng thái hiện tại (sau rollback):
+$ python scripts/prompt_versions.py status
+Prompt 'day13-chat':
+  v1: labels=[baseline, production] | last line: Question={{message}}
+  v2: labels=[candidate, latest] | last line: Answer in at most 3 concise bullet points, using only the Docs above.
+
+# Cùng input 'Explain why metrics traces and logs work together' chạy với từng label:
+=== trace 3316b601cefd5abcdb665c5005872928: 3 observations
+      metadata: {'correlation_id': 'req-cfb7dbc4', 'prompt_fetch_error': '', 'prompt_source': 'langfuse', 'prompt_version': 1, 'prompt_label': 'baseline', 'prompt_name': 'day13-chat', 'query_preview': 'Explain why metrics traces and logs work together', 'doc_count': 1}
+  - llm-generation [GENERATION] parent=lab-agent-run dur=153ms level=DEFAULT model=claude-sonnet-4-5 usage={'input': 32, 'output': 168, 'total': 200} cost={'input': 9.6e-05, 'output': 0.00252, 'total': 0.002616} prompt=day13-chat v1 ttft_s=0.052
+      input: 'Feature=qa\nDocs=No domain document matched. Use general fallback answer.\nQuestion=Explain why metrics traces and logs work together'
+=== trace 4b18a119501f5ad60e2b1d12449ac6a2: 3 observations
+      metadata: {'correlation_id': 'req-66858919', 'prompt_fetch_error': '', 'prompt_source': 'langfuse', 'prompt_version': 2, 'prompt_label': 'candidate', 'prompt_name': 'day13-chat', 'query_preview': 'Explain why metrics traces and logs work together', 'doc_count': 1}
+  - llm-generation [GENERATION] parent=lab-agent-run dur=152ms level=DEFAULT model=claude-sonnet-4-5 usage={'input': 50, 'output': 165, 'total': 215} cost={'input': 0.00015, 'output': 0.002475, 'total': 0.002625} prompt=day13-chat v2 ttft_s=0.051
+      input: 'Feature=qa\nDocs=No domain document matched. Use general fallback answer.\nQuestion=Explain why metrics traces and logs work together\nAnswer in at most 3 concise bullet poi'

@@ -1,0 +1,48 @@
+# CP3 — Incident trace (Langfuse observations v2 API, project day13-k4-l3a-2A202602525)
+# Challenge day13-k4-l3a-monitoring-llmops-v1 — trace của request req-628ce44b (tìm theo trace_id trong log / metadata.correlation_id)
+
+=== trace 17ed0b7d89dd5f2710210a359bb75ab1: 4 observations
+  - lab-agent-run [AGENT] parent=(root) dur=2654ms level=DEFAULT
+      user=aae0b94055a9 session=k4-l3a-challenge-s02 env=dev trace_name=day13-agent-request tags=['lab', 'monitoring', 'claude-sonnet-4-5'] status=
+      metadata: {'correlation_id': 'req-628ce44b', 'prompt_fetch_error': '', 'prompt_source': 'langfuse', 'prompt_version': 1, 'prompt_label': 'production', 'prompt_name': 'day13-chat', 'query_preview': 'How should an engineer investigate tail latency?', 'doc_count': 1}
+  - rag-retrieval [RETRIEVER] parent=lab-agent-run dur=2501ms level=DEFAULT
+      metadata: {'correlation_id': 'req-628ce44b'}
+      input: '{"query_preview": "How should an engineer investigate tail latency?"}'
+  - prompt-resolve [SPAN] parent=lab-agent-run dur=0ms level=DEFAULT
+      metadata: {'correlation_id': 'req-628ce44b'}
+  - llm-generation [GENERATION] parent=lab-agent-run dur=151ms level=DEFAULT model=claude-sonnet-4-5 usage={'input': 34, 'output': 97, 'total': 131} cost={'input': 0.000102, 'output': 0.001455, 'total': 0.001557} prompt=day13-chat v1 ttft_s=0.05
+      metadata: {'correlation_id': 'req-628ce44b'}
+      input: 'Feature=monitoring\nDocs=No domain document matched. Use general fallback answer.\nQuestion=How should an engineer investigate tail latency?'
+
+# Cả 5 trace của challenge — duration từng span:
+=== trace ac4f77ffa4b0b2d32c71ef4d7281b835: 4 observations
+  - lab-agent-run [AGENT] parent=(root) dur=2655ms level=DEFAULT
+  - rag-retrieval [RETRIEVER] parent=lab-agent-run dur=2501ms level=DEFAULT
+  - prompt-resolve [SPAN] parent=lab-agent-run dur=0ms level=DEFAULT
+  - llm-generation [GENERATION] parent=lab-agent-run dur=152ms level=DEFAULT
+=== trace e7c9c89870926e6a41a87e1561fa8325: 4 observations
+  - lab-agent-run [AGENT] parent=(root) dur=2654ms level=DEFAULT
+  - rag-retrieval [RETRIEVER] parent=lab-agent-run dur=2501ms level=DEFAULT
+  - llm-generation [GENERATION] parent=lab-agent-run dur=152ms level=DEFAULT
+  - prompt-resolve [SPAN] parent=lab-agent-run dur=0ms level=DEFAULT
+=== trace 1c9ae69a8077c9b353be62267558e629: 4 observations
+  - lab-agent-run [AGENT] parent=(root) dur=2654ms level=DEFAULT
+  - rag-retrieval [RETRIEVER] parent=lab-agent-run dur=2501ms level=DEFAULT
+  - prompt-resolve [SPAN] parent=lab-agent-run dur=0ms level=DEFAULT
+  - llm-generation [GENERATION] parent=lab-agent-run dur=151ms level=DEFAULT
+=== trace 3180d9c28557c1aedbfc68a15a903b09: 4 observations
+  - lab-agent-run [AGENT] parent=(root) dur=2654ms level=DEFAULT
+  - rag-retrieval [RETRIEVER] parent=lab-agent-run dur=2501ms level=DEFAULT
+  - prompt-resolve [SPAN] parent=lab-agent-run dur=0ms level=DEFAULT
+  - llm-generation [GENERATION] parent=lab-agent-run dur=151ms level=DEFAULT
+
+# Sau fix (disable rag_slow lúc 12:58:00Z) — cùng query challenge, trace 5609ce896c387f6b464e3f67f59ea4bc:
+=== trace 5609ce896c387f6b464e3f67f59ea4bc: 4 observations
+  - lab-agent-run [AGENT] parent=(root) dur=152ms level=DEFAULT
+      metadata: {'correlation_id': 'req-49e69d58', 'prompt_fetch_error': '', 'prompt_source': 'langfuse', 'prompt_version': 1, 'prompt_label': 'production', 'prompt_name': 'day13-chat', 'query_preview': 'How should an engineer investigate tail latency?', 'doc_count': 1}
+  - rag-retrieval [RETRIEVER] parent=lab-agent-run dur=1ms level=DEFAULT
+      metadata: {'correlation_id': 'req-49e69d58'}
+  - llm-generation [GENERATION] parent=lab-agent-run dur=151ms level=DEFAULT
+      metadata: {'correlation_id': 'req-49e69d58'}
+  - prompt-resolve [SPAN] parent=lab-agent-run dur=0ms level=DEFAULT
+      metadata: {'correlation_id': 'req-49e69d58'}

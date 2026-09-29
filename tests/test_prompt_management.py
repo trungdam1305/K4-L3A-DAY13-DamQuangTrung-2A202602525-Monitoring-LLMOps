@@ -134,3 +134,27 @@ def test_sdk_fallback_is_not_reported_as_managed_prompt() -> None:
     assert resolved.version == "local-v1"
     assert resolved.fetch_error == "LangfuseFallback"
     assert resolved.managed_prompt is None
+
+
+def test_warm_prompt_cache_fetches_configured_prompt(monkeypatch) -> None:
+    from app.prompt_management import warm_prompt_cache
+
+    monkeypatch.setenv("LANGFUSE_PROMPT_NAME", "day13-chat")
+    monkeypatch.setenv("LANGFUSE_PROMPT_LABEL", "production")
+    client = RecordingPromptClient()
+
+    assert warm_prompt_cache(client) is None
+    assert client.request[0] == "day13-chat"
+    assert client.request[1]["label"] == "production"
+
+
+def test_warm_prompt_cache_failure_does_not_raise() -> None:
+    from app.prompt_management import warm_prompt_cache
+
+    assert warm_prompt_cache(FailingPromptClient()) == "TimeoutError"
+
+
+def test_warm_prompt_cache_reports_sdk_fallback_as_failure() -> None:
+    from app.prompt_management import warm_prompt_cache
+
+    assert warm_prompt_cache(FallbackReturningPromptClient(), attempts=2) == "LangfuseFallback"

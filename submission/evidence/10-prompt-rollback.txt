@@ -1,0 +1,34 @@
+# Promote / rollback label production — prompt day13-chat (project day13-k4-l3a-2A202602525)
+# Mỗi bước: đổi label bằng scripts/prompt_versions.py, API KHÔNG restart; app cache prompt 60s
+# (stale-while-revalidate) nên request đầu tiên sau khi hết TTL vẫn nhận version cũ, request kế tiếp nhận version mới.
+
+## Trước promote: production -> v1
+{"tag": "production-before-promote", "status": 200, "correlation_id": "req-236bfcbf", "trace_id": "3c34da020d24331fed18d5fb85ce6d3f"}
+
+## $ python scripts/prompt_versions.py promote 2
+promote: production -> day13-chat v2
+Prompt 'day13-chat':
+  v1: labels=[baseline] | last line: Question={{message}}
+  v2: labels=[candidate, production, latest] | last line: Answer in at most 3 concise bullet points, using only the Docs above.
+{"tag": "production-after-promote-1", "status": 200, "correlation_id": "req-c4be6963", "trace_id": "f47acaa81e6e01a596c70e6dd791f2d9"}
+{"tag": "production-after-promote-2", "status": 200, "correlation_id": "req-9876eb23", "trace_id": "c5d9c1ca17f8e517f481b400fb1820a3"}
+
+## $ python scripts/prompt_versions.py rollback 1
+rollback: production -> day13-chat v1
+Prompt 'day13-chat':
+  v1: labels=[baseline, production] | last line: Question={{message}}
+  v2: labels=[candidate, latest] | last line: Answer in at most 3 concise bullet points, using only the Docs above.
+{"tag": "production-after-rollback-1", "status": 200, "correlation_id": "req-d92b79b1", "trace_id": "d05eb76a81b4bbd0239aabe90f9f0099"}
+{"tag": "production-after-rollback-2", "status": 200, "correlation_id": "req-91ffca5a", "trace_id": "e69f3fe346003a4957b3a5ff304db52a"}
+
+## Prompt version thực tế trong trace (đọc lại từ Langfuse):
+=== trace 3c34da020d24331fed18d5fb85ce6d3f: 4 observations
+  - llm-generation [GENERATION] parent=lab-agent-run dur=152ms level=DEFAULT model=claude-sonnet-4-5 prompt=day13-chat v1 ttft_s=0.051
+=== trace f47acaa81e6e01a596c70e6dd791f2d9: 4 observations
+  - llm-generation [GENERATION] parent=lab-agent-run dur=153ms level=DEFAULT model=claude-sonnet-4-5 prompt=day13-chat v1 ttft_s=0.051
+=== trace c5d9c1ca17f8e517f481b400fb1820a3: 4 observations
+  - llm-generation [GENERATION] parent=lab-agent-run dur=151ms level=DEFAULT model=claude-sonnet-4-5 prompt=day13-chat v2 ttft_s=0.051
+=== trace d05eb76a81b4bbd0239aabe90f9f0099: 4 observations
+  - llm-generation [GENERATION] parent=lab-agent-run dur=151ms level=DEFAULT model=claude-sonnet-4-5 prompt=day13-chat v2 ttft_s=0.05
+=== trace e69f3fe346003a4957b3a5ff304db52a: 4 observations
+  - llm-generation [GENERATION] parent=lab-agent-run dur=152ms level=DEFAULT model=claude-sonnet-4-5 prompt=day13-chat v1 ttft_s=0.051

@@ -1,0 +1,28 @@
+# Trace waterfall + metadata (Langfuse observations v2 API) — project day13-k4-l3a-2A202602525
+# Cây cha-con: lab-agent-run (AGENT, root) -> rag-retrieval (RETRIEVER), prompt-resolve (SPAN), llm-generation (GENERATION)
+
+=== trace e69f3fe346003a4957b3a5ff304db52a: 4 observations
+  - lab-agent-run [AGENT] parent=(root) dur=154ms level=DEFAULT
+      user=1bcbaa7b5b0a session=s-production-after-rollback-2 env=dev trace_name=day13-agent-request tags=['lab', 'qa', 'claude-sonnet-4-5'] status=
+      metadata: {'correlation_id': 'req-91ffca5a', 'prompt_fetch_error': '', 'prompt_source': 'langfuse', 'prompt_version': 1, 'prompt_label': 'production', 'prompt_name': 'day13-chat', 'query_preview': 'Explain why metrics traces and logs work together', 'doc_count': 1}
+  - rag-retrieval [RETRIEVER] parent=lab-agent-run dur=0ms level=DEFAULT
+      metadata: {'correlation_id': 'req-91ffca5a'}
+      input: '{"query_preview": "Explain why metrics traces and logs work together"}'
+  - prompt-resolve [SPAN] parent=lab-agent-run dur=0ms level=DEFAULT
+      metadata: {'correlation_id': 'req-91ffca5a'}
+  - llm-generation [GENERATION] parent=lab-agent-run dur=152ms level=DEFAULT model=claude-sonnet-4-5 usage={'input': 32, 'output': 104, 'total': 136} cost={'input': 9.6e-05, 'output': 0.00156, 'total': 0.001656} prompt=day13-chat v1 ttft_s=0.051
+      metadata: {'correlation_id': 'req-91ffca5a'}
+      input: 'Feature=qa\nDocs=No domain document matched. Use general fallback answer.\nQuestion=Explain why metrics traces and logs work together'
+
+=== trace da5deef8b53032095a14ced9c14d06e9: 4 observations
+  - lab-agent-run [AGENT] parent=(root) dur=152ms level=DEFAULT
+      user=2055254ee30a session=s01 env=dev trace_name=day13-agent-request tags=['lab', 'qa', 'claude-sonnet-4-5'] status=
+      metadata: {'correlation_id': 'req-a16b21a2', 'prompt_fetch_error': '', 'prompt_source': 'langfuse', 'prompt_version': 1, 'prompt_label': 'production', 'prompt_name': 'day13-chat', 'query_preview': 'What is your refund policy? My email is [REDACTED_EMAIL]', 'doc_count': 1}
+  - rag-retrieval [RETRIEVER] parent=lab-agent-run dur=1ms level=DEFAULT
+      metadata: {'correlation_id': 'req-a16b21a2'}
+      input: '{"query_preview": "What is your refund policy? My email is [REDACTED_EMAIL]"}'
+  - prompt-resolve [SPAN] parent=lab-agent-run dur=0ms level=DEFAULT
+      metadata: {'correlation_id': 'req-a16b21a2'}
+  - llm-generation [GENERATION] parent=lab-agent-run dur=151ms level=DEFAULT model=claude-sonnet-4-5 usage={'input': 36, 'output': 99, 'total': 135} cost={'input': 0.000108, 'output': 0.001485, 'total': 0.001593} prompt=day13-chat v1 ttft_s=0.051
+      metadata: {'correlation_id': 'req-a16b21a2'}
+      input: 'Feature=qa\nDocs=Refunds are available within 7 days with proof of purchase.\nQuestion=What is your refund policy? My email is [REDACTED_EMAIL]'

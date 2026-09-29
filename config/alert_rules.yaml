@@ -1,25 +1,40 @@
+# Cả ba alert đều symptom-based: đo điều người dùng/business thấy được
+# (chậm, lỗi, tốn tiền) chứ không đo tên thành phần nội bộ (vector store, prompt...).
+# Nguồn dữ liệu: data/logs.jsonl, cùng field với dashboard (config/dashboard.yaml).
 alerts:
-  - name: TODO_alert_1
-    severity: TODO
-    condition: TODO
-    duration: TODO
+  - name: chat_latency_p95_slo_breach
+    severity: P2-high
+    condition: 'p95(response_sent.latency_ms) > 2000 over rolling 5m window'
+    duration: 5m
     type: symptom-based
     channel: slack
-    owner: TODO
+    slack_channel: '#day13-k4-l3a-oncall'
+    owner: AI platform on-call (Dam Quang Trung)
+    slo: fast_successful_requests (config/slo.yaml)
     runbook: docs/alerts.md#alert-1
-  - name: TODO_alert_2
-    severity: TODO
-    condition: TODO
-    duration: TODO
+
+  - name: chat_error_rate_high
+    severity: P1-critical
+    condition: >-
+      count(request_failed) / count(request_received) * 100 > 2 over rolling 5m window
+      and count(request_received) >= 10
+    duration: 2m
     type: symptom-based
     channel: slack
-    owner: TODO
+    slack_channel: '#day13-k4-l3a-oncall'
+    owner: AI platform on-call (Dam Quang Trung)
+    slo: fast_successful_requests + guardrail error_rate_pct_max=2
     runbook: docs/alerts.md#alert-2
-  - name: TODO_alert_3
-    severity: TODO
-    condition: TODO
-    duration: TODO
+
+  - name: chat_cost_per_request_spike
+    severity: P3-warning
+    condition: >-
+      avg(response_sent.cost_usd) > 0.005 over rolling 15m window
+      or sum(response_sent.cost_usd) over 60m > 2.5
+    duration: 15m
     type: symptom-based
     channel: slack
-    owner: TODO
+    slack_channel: '#day13-k4-l3a-finops'
+    owner: LLMOps / FinOps owner (Dam Quang Trung)
+    slo: guardrail daily_cost_usd_max=2.5
     runbook: docs/alerts.md#alert-3

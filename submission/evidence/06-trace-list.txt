@@ -1,0 +1,32 @@
+# Trace list — Langfuse project day13-k4-l3a-2A202602525 (Langfuse Cloud, observations v2 API)
+# Tổng số trace: 28; mỗi trace: root lab-agent-run + các observation con
+
+start (UTC)          trace_id                           correlation_id session                          prompt                 children
+2026-09-29 08:34:51 3316b601cefd5abcdb665c5005872928   req-cfb7dbc4   s-label-baseline                 day13-chat v1 (baseline) llm-generation, rag-retrieval
+2026-09-29 08:35:15 4b18a119501f5ad60e2b1d12449ac6a2   req-66858919   s-label-candidate                day13-chat v2 (candidate) llm-generation, rag-retrieval
+2026-09-29 09:00:46 3c34da020d24331fed18d5fb85ce6d3f   req-236bfcbf   s-production-before-promote      day13-chat v1 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:00:51 da5deef8b53032095a14ced9c14d06e9   req-a16b21a2   s01                              day13-chat v1 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:00:51 484662be068b69c10d7f24d838b9f40f   req-e5d35e40   s02                              day13-chat v1 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:00:51 a62ec8ea190e6f959072c9cc6236c103   req-8a673473   s03                              day13-chat v1 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:00:51 0472878bf24f8e9f7b43520970069e36   req-cbc758bc   s04                              day13-chat v1 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:00:51 60089f5462a4270913b2ca31b037083d   req-f2b2c288   s05                              day13-chat v1 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:00:51 7f1d189674af930db752beec0717f35c   req-0398a6da   s06                              day13-chat v1 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:00:52 4e2f4f57f8e2d9d4c44286abc0e08908   req-d519d4fb   s07                              day13-chat v1 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:00:52 e1f408c2c9020ed744717093404f01bf   req-6a5b668b   s08                              day13-chat v1 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:00:52 e21242add4a2b314f5482d7ea4682c3d   req-429fa7a4   s09                              day13-chat v1 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:00:52 2ee0a8b74b3f7e2885dfd5888d9a1b15   req-76f728b3   s10                              day13-chat v1 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:00:54 c503bc8a98e3d725346fd5bbf319186a   req-29028892   s01                              day13-chat v1 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:00:54 40f204c30068d1bc73556191de42fb8d   req-5c772143   s04                              day13-chat v1 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:00:54 ef90084cbf6dcf078f78fb4ff4d79c67   req-f16dc908   s03                              day13-chat v1 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:00:54 51c84489061599eb9da594857751004a   req-1ba36a0d   s02                              day13-chat v1 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:00:54 f1e4e0bbcd7f2cd936b52d84a0277881   req-cf366800   s05                              day13-chat v1 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:00:54 a7558e28303d318838e0716c92d192b8   req-8e04a973   s06                              day13-chat v1 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:00:54 d00ce6094ad9c101c707a1a3cc38972d   req-268d29cf   s07                              day13-chat v1 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:00:55 2e84f1c4950e598d712e7723498596fb   req-1930e0e9   s08                              day13-chat v1 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:00:55 e8adcb3b38ce357692251d08cd7b5bf2   req-ffe4e15f   s09                              day13-chat v1 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:00:55 36ccce407b8dd5da9c580d53cdcd085c   req-a87bb36f   s10                              day13-chat v1 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:02:14 f47acaa81e6e01a596c70e6dd791f2d9   req-c4be6963   s-production-after-promote-1     day13-chat v1 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:02:19 c5d9c1ca17f8e517f481b400fb1820a3   req-9876eb23   s-production-after-promote-2     day13-chat v2 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:03:50 d05eb76a81b4bbd0239aabe90f9f0099   req-d92b79b1   s-production-after-rollback-1    day13-chat v2 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:03:54 e69f3fe346003a4957b3a5ff304db52a   req-91ffca5a   s-production-after-rollback-2    day13-chat v1 (production) llm-generation, prompt-resolve, rag-retrieval
+2026-09-29 09:08:17 3f678d0fbcf43bd47826c673da6bdd0f   req-e4e74cb9   s-pii-demo                       day13-chat v1 (production) llm-generation, prompt-resolve, rag-retrieval

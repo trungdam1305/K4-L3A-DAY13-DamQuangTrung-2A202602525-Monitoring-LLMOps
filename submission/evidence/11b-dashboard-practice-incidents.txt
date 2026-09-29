@@ -1,0 +1,11 @@
+Dashboard: submission\evidence\11b-dashboard-practice-incidents.png
+Window (UTC): 2026-09-29 07:03:39 → 08:03:39
+requests=51 p50=152 p95=2653 p99=2653 ttft_p95=50 ms
+error_rate=19.6% errors={'RuntimeError': 10} retrieval_success=80.4%
+cost_total=$0.1403 tokens_in=1385 tokens_out=9077 quality_mean=0.878
+  [BREACH] latency: p95=2653 lte 2000
+  [OK] traffic: rate_per_minute=12.51 gte 1
+  [BREACH] errors: error_rate_pct=19.61 lte 2
+  [OK] cost: total=0.1403 lte 2.5
+  [OK] tokens: sum_by_field=9077 lte 50000
+  [OK] quality: mean=0.878 gte 0.75

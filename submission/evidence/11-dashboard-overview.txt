@@ -1,0 +1,11 @@
+Dashboard: submission\evidence\11-dashboard-overview.png
+Window (UTC): 2026-09-29 08:08:17 → 09:08:17
+requests=28 p50=152 p95=1374 p99=1513 ttft_p95=50 ms
+error_rate=0.0% errors={} retrieval_success=100.0%
+cost_total=$0.0580 tokens_in=1004 tokens_out=3664 quality_mean=0.857
+  [OK] latency: p95=1374 lte 2000
+  [BREACH] traffic: rate_per_minute=0.8375 gte 1
+  [OK] errors: error_rate_pct=0 lte 2
+  [OK] cost: total=0.05797 lte 2.5
+  [OK] tokens: sum_by_field=3664 lte 50000
+  [OK] quality: mean=0.8571 gte 0.75

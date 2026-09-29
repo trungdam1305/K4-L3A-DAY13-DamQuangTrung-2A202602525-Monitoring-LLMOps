@@ -13,8 +13,9 @@ from .logging_config import configure_logging, get_logger
 from .metrics import record_error, snapshot
 from .middleware import CorrelationIdMiddleware
 from .pii import hash_user_id, summarize_text
+from .prompt_management import warm_prompt_cache
 from .schemas import ChatRequest, ChatResponse
-from .tracing import tracing_enabled
+from .tracing import get_langfuse_client, tracing_enabled
 
 configure_logging()
 log = get_logger()
@@ -29,7 +30,13 @@ async def lifespan(_: FastAPI):
         env=os.getenv("APP_ENV", "dev"),
         payload={"tracing_enabled": tracing_enabled()},
     )
+    if tracing_enabled():
+        warm_error = warm_prompt_cache(get_langfuse_client())
+        log.info("prompt_cache_warmed", service="control", payload={"error": warm_error})
     yield
+    if tracing_enabled():
+        # Langfuse export theo batch; flush để không mất trace cuối khi tắt API.
+        get_langfuse_client().flush()
 
 
 app = FastAPI(title="Day 13 Monitoring & LLMOps Lab", lifespan=lifespan)
@@ -48,9 +55,14 @@ async def metrics() -> dict:
 
 @app.post("/chat", response_model=ChatResponse)
 async def chat(request: Request, body: ChatRequest) -> ChatResponse:
-    # TODO: Enrich logs with request context (user_id_hash, session_id, feature, model, env)
-    # bind_contextvars(...)
-    
+    bind_contextvars(
+        user_id_hash=hash_user_id(body.user_id),
+        session_id=body.session_id,
+        feature=body.feature,
+        model=agent.model,
+        env=os.getenv("APP_ENV", "dev"),
+    )
+
     log.info(
         "request_received",
         service="api",
@@ -75,6 +87,7 @@ async def chat(request: Request, body: ChatRequest) -> ChatResponse:
             quality_score=result.quality_score,
             tool_name="retrieval",
             tool_success=True,
+            trace_id=result.trace_id,
             payload={"answer_preview": summarize_text(result.answer)},
         )
         return ChatResponse(

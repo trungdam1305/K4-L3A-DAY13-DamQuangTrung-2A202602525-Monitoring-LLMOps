@@ -1,0 +1,37 @@
+== pre-incident baseline (after restart) start 2026-09-29T12:55:10Z
+[200] req-d7cad622 | summary | 512.1ms
+[200] req-384e0695 | qa | 674.2ms
+[200] req-ad85479b | qa | 829.2ms
+[200] req-67fa7f69 | qa | 828.9ms
+[200] req-cce7c565 | qa | 829.1ms
+[200] req-a0ca9588 | summary | 630.3ms
+[200] req-a6c72cd6 | qa | 470.3ms
+[200] req-5b87a149 | qa | 626.8ms
+[200] req-3b5d1092 | qa | 627.9ms
+[200] req-08b7137a | qa | 783.3ms
+== pre-incident baseline end 2026-09-29T12:55:13Z
+
+== inject_incident (challenge.json) at 2026-09-29T12:56:01Z
+$ python scripts/inject_incident.py
+200 {'ok': True, 'incidents': {'rag_slow': True, 'tool_fail': False, 'cost_spike': False}}
+== challenge load start 2026-09-29T12:56:01Z
+$ python scripts/load_test.py --challenge --concurrency 5
+Challenge: day13-k4-l3a-monitoring-llmops-v1 | Cohort: K4
+[200] req-628ce44b | monitoring | 7988.8ms
+[200] req-5d3ab414 | monitoring | 10646.8ms
+[200] req-817fa041 | monitoring | 13302.6ms
+[200] req-a517568e | monitoring | 13302.8ms
+[200] req-83598557 | monitoring | 13302.3ms
+== challenge load end 2026-09-29T12:56:17Z
+
+== fix: disable incident at 2026-09-29T12:58:00Z
+$ python scripts/inject_incident.py --disable
+200 {'ok': True, 'incidents': {'rag_slow': False, 'tool_fail': False, 'cost_spike': False}}
+== post-fix verification (same challenge queries) start 2026-09-29T12:58:00Z
+Challenge: day13-k4-l3a-monitoring-llmops-v1 | Cohort: K4
+[200] req-49e69d58 | monitoring | 625.0ms
+[200] req-ca8e6767 | monitoring | 626.3ms
+[200] req-779f97e8 | monitoring | 783.5ms
+[200] req-112b9dc3 | monitoring | 781.9ms
+[200] req-3f76e785 | monitoring | 782.9ms
+== post-fix verification end 2026-09-29T12:58:02Z

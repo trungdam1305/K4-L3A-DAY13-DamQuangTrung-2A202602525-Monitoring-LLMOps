@@ -40,3 +40,13 @@ def tracing_enabled() -> bool:
     return LANGFUSE_SDK_AVAILABLE and bool(
         os.getenv("LANGFUSE_PUBLIC_KEY") and os.getenv("LANGFUSE_SECRET_KEY")
     )
+
+
+def current_trace_id() -> str | None:
+    """Trace ID của observation hiện tại, để ghi vào log và nối log ↔ trace."""
+    if not tracing_enabled():
+        return None
+    try:
+        return get_client().get_current_trace_id()
+    except Exception:  # tracing không được làm hỏng request
+        return None

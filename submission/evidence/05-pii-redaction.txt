@@ -1,0 +1,28 @@
+# PII redaction — input test dùng dữ liệu GIẢ có sẵn trong repo
+# (data/sample_queries.jsonl và tests/test_pii.py), không phải dữ liệu thật.
+# Bên trái: message gửi tới POST /chat. Bên phải: dòng request_received ghi trong data/logs.jsonl.
+
+## session=s01 correlation_id=req-a16b21a2
+INPUT : What is your refund policy? My email is student@vinuni.edu.vn
+LOG   : {"service": "api", "payload": {"message_preview": "What is your refund policy? My email is [REDACTED_EMAIL]"}, "event": "request_received", "correlation_id": "req-a16b21a2", "env": "dev", "model": "claude-sonnet-4-5", "feature": "qa", "session_id": "s01", "user_id_hash": "2055254ee30a", "level": "info", "ts": "2026-09-29T09:00:51.071324Z"}
+
+## session=s05 correlation_id=req-f2b2c288
+INPUT : Here is my phone 0987654321, what should be logged?
+LOG   : {"service": "api", "payload": {"message_preview": "Here is my phone [REDACTED_PHONE_VN], what should be logged?"}, "event": "request_received", "correlation_id": "req-f2b2c288", "env": "dev", "model": "claude-sonnet-4-5", "feature": "qa", "session_id": "s05", "user_id_hash": "64f6ec689229", "level": "info", "ts": "2026-09-29T09:00:51.703588Z"}
+
+## session=s09 correlation_id=req-429fa7a4
+INPUT : What is the policy for PII and credit card 4111 1111 1111 1111?
+LOG   : {"service": "api", "payload": {"message_preview": "What is the policy for PII and credit card [REDACTED_CREDIT_CARD]?"}, "event": "request_received", "correlation_id": "req-429fa7a4", "env": "dev", "model": "claude-sonnet-4-5", "feature": "qa", "session_id": "s09", "user_id_hash": "4d14d5d4f719", "level": "info", "ts": "2026-09-29T09:00:52.344272Z"}
+
+## session=s-pii-demo correlation_id=req-e4e74cb9
+INPUT : PII test: email student@vinuni.edu.vn, phone 0987654321, CCCD 079203001234, card 4111 1111 1111 1111. What is the policy?
+LOG   : {"service": "api", "payload": {"message_preview": "PII test: email [REDACTED_EMAIL], phone [REDACTED_PHONE_VN], CCCD [REDACTED_CCCD..."}, "event": "request_received", "correlation_id": "req-e4e74cb9", "env": "dev", "model": "claude-sonnet-4-5", "feature": "qa", "session_id": "s-pii-demo", "user_id_hash": "1bcbaa7b5b0a", "level": "info", "ts": "2026-09-29T09:08:17.139345Z"}
+
+# Kiểm chứng: python scripts/validate_logs.py -> Potential PII leaks detected: 0 (xem 02-log-validator.txt)
+
+
+## Langfuse trace 3f678d0fbcf43bd47826c673da6bdd0f (session=s-pii-demo, correlation_id=req-e4e74cb9)
+## Input của observation llm-generation đã gửi lên Langfuse (đủ 4 loại PII đều bị che):
+Feature=qa
+Docs=Do not expose PII in logs. Use sanitized summaries only.
+Question=PII test: email [REDACTED_EMAIL], phone [REDACTED_PHONE_VN], CCCD [REDACTED_CCCD], card [REDACTED_CREDIT_CARD]. What is the policy?

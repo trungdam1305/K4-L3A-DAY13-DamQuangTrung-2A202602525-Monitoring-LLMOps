@@ -1,0 +1,17 @@
+# CP3 — Incident log (nguồn: data/logs.jsonl, structured log do app ghi)
+# Challenge: day13-k4-l3a-monitoring-llmops-v1
+# Cửa sổ sự cố (UTC): 2026-09-29T12:56:01Z → 2026-09-29T12:56:18Z  (= 19:56:01–19:56:18 UTC+7)
+# Bộ lọc: event == 'response_sent' and latency_ms > 2000
+
+ts (UTC)                    correlation_id feature    session_id             latency_ms ttft_ms  trace_id
+2026-09-29T12:56:07.227486Z req-628ce44b   monitoring k4-l3a-challenge-s02         2653      50  17ed0b7d89dd5f2710210a359bb75ab1
+2026-09-29T12:56:09.884511Z req-5d3ab414   monitoring k4-l3a-challenge-s04         2654      50  ac4f77ffa4b0b2d32c71ef4d7281b835
+2026-09-29T12:56:12.542155Z req-817fa041   monitoring k4-l3a-challenge-s01         2653      50  e7c9c89870926e6a41a87e1561fa8325
+2026-09-29T12:56:15.208425Z req-a517568e   monitoring k4-l3a-challenge-s05         2653      50  1c9ae69a8077c9b353be62267558e629
+2026-09-29T12:56:17.864270Z req-83598557   monitoring k4-l3a-challenge-s03         2653      50  3180d9c28557c1aedbfc68a15a903b09
+
+# 5/5 request trong cửa sổ vượt 2000 ms; tất cả thuộc feature 'monitoring'; TTFT vẫn ~50 ms (LLM không chậm).
+
+# Request được chọn để điều tra: correlation_id=req-628ce44b — toàn bộ log line nguyên văn:
+{"service": "api", "payload": {"message_preview": "How should an engineer investigate tail latency?"}, "event": "request_received", "feature": "monitoring", "env": "dev", "user_id_hash": "aae0b94055a9", "correlation_id": "req-628ce44b", "model": "claude-sonnet-4-5", "session_id": "k4-l3a-challenge-s02", "level": "info", "ts": "2026-09-29T12:56:04.571295Z"}
+{"service": "api", "latency_ms": 2653, "ttft_ms": 50, "tokens_in": 34, "tokens_out": 97, "cost_usd": 0.001557, "quality_score": 0.9, "tool_name": "retrieval", "tool_success": true, "trace_id": "17ed0b7d89dd5f2710210a359bb75ab1", "payload": {"answer_preview": "Starter answer. You should improve this output logic and add better quality chec..."}, "event": "response_sent", "feature": "monitoring", "env": "dev", "user_id_hash": "aae0b94055a9", "correlation_id": "req-628ce44b", "model": "claude-sonnet-4-5", "session_id": "k4-l3a-challenge-s02", "level": "info", "ts": "2026-09-29T12:56:07.227486Z"}
