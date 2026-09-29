@@ -2,7 +2,7 @@
 
 > Mỗi học viên hoàn thiện một file duy nhất này. Khi dẫn evidence, dùng đường dẫn tương đối, ví dụ `evidence/07-trace-waterfall.png`.
 >
-> ⏳ = mục còn chờ commit cuối.
+> Evidence và kết quả trong report thuộc commit bài làm ghi ở mục 1.
 
 ## 1. Thông tin học viên
 
@@ -10,7 +10,7 @@
 - **MSSV:** 2A202602525
 - **Lớp:** K4-L3A
 - **Repository URL:** https://github.com/trungdam1305/K4-L3A-DAY13-DamQuangTrung-2A202602525-Monitoring-LLMOps
-- **Commit SHA cuối:** ⏳
+- **Commit SHA cuối:** `bae306d2a9f1d597b68c18ca468c1e993bb20f7e` (commit bài làm; commit ngay sau chỉ ghi SHA này vào report. SHA nộp LMS là HEAD của `main`)
 - **Challenge ID:** `day13-k4-l3a-monitoring-llmops-v1` (cohort K4, seed 1311; file `config/challenge.json` do Lab Coach gửi, được gitignore, không commit)
 - **Tên project Langfuse cá nhân:** `day13-k4-l3a-2A202602525`
 
